@@ -2,7 +2,6 @@ import React from "react";
 import { Form } from "react-bootstrap";
 import { UseFieldConfig } from "react-final-form";
 import { FieldWrapper } from "./FieldWrapper";
-import { GroupByForm } from "../types";
 
 const name = "name";
 const label = "Name";

@@ -9,6 +9,7 @@ import { ConfirmConrol } from "./ConfirmControl";
 import { ReportField } from "./ReportField";
 import { LocationLevelField } from "./LocationLevelField";
 import { TimeGroupingField } from "./TimeGroupingField";
+import { FilterGroupFieldList } from "./FilfterGroupFieldList";
 
 interface Props {
   onSubmit: (data: unknown) => Promise<void>;
@@ -37,10 +38,13 @@ const ReactHookForm: React.FC<Props> = ({ onSubmit }) => {
           {step > 1 && <ReportField />}
         </Form.Row>
         {step > 2 && (
-          <Form.Row>
-            <LocationLevelField />
-            <TimeGroupingField />
-          </Form.Row>
+          <>
+            <Form.Row>
+              <LocationLevelField />
+              <TimeGroupingField />
+            </Form.Row>
+            <FilterGroupFieldList />
+          </>
         )}
         <ConfirmConrol />
       </Form>

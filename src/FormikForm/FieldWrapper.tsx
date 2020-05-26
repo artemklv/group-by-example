@@ -1,24 +1,40 @@
-import React from "react";
-import { useField, UseFieldConfig } from "react-final-form";
+import React, { useEffect } from "react";
+import { useField, useFormikContext } from "formik";
 import { Form, Col } from "react-bootstrap";
+import { TimeGrouping } from "../types";
 
-interface Props {
+interface Props<V extends any = any> {
   name: string;
   label: string;
   sm?: number;
+  defaultValue?: V;
   children: React.ReactElement | React.ReactElement[];
-  config?: UseFieldConfig<any>;
+  validate?: (value: V) => string | void;
 }
 
-const FieldWrapper: React.FC<Props> = ({
+function FieldWrapper<V>({
   name,
   label,
   children,
   sm,
-  config
-}) => {
-  const { input, meta } = useField(name, config);
-  const isInvalid = Boolean(meta.error) && meta.touched;
+  defaultValue,
+  validate
+}: Props<V>) {
+  const {submitCount} = useFormikContext();
+  const [{ value, onChange }, { error, touched }, {setTouched}] = useField<TimeGrouping>({
+    name,
+    defaultValue: defaultValue as any,
+    validate
+  });
+
+  // fix tuched prop on dynamic field
+  useEffect(() => {
+    return () => {
+      setTouched(false);
+    }
+  }, []);
+  
+  const hasError = Boolean(error) && ((touched) || Boolean(submitCount));
 
   return (
     <Form.Group controlId={name} as={Col} sm={sm}>
@@ -27,17 +43,16 @@ const FieldWrapper: React.FC<Props> = ({
         .filter(child => React.Children.only(child))
         .map(child =>
           React.cloneElement(child as React.ReactElement, {
-            ...input,
-            isInvalid
+            value: value ?? defaultValue,
+            onChange,
+            isInvalid: hasError,
           })
         )}
-      {isInvalid && (
-        <Form.Control.Feedback type="invalid">
-          {meta.error}
-        </Form.Control.Feedback>
+      {hasError && (
+        <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>
       )}
     </Form.Group>
   );
-};
+}
 
 export { FieldWrapper };

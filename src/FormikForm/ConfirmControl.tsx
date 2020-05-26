@@ -1,27 +1,26 @@
-import React, { useEffect } from "react";
-import { useFormContext } from "react-hook-form";
+import React from "react";
 import { Button, Form, Col } from "react-bootstrap";
+import { useFormikContext } from "formik";
 import { GroupByForm } from "../types";
 
-const ConfirmConrol: React.FC = () => {
-  const { formState, setValue, watch, register } = useFormContext<
-    GroupByForm
-  >();
+const ConfirmControl: React.FC = () => {
+  const {
+    isValid,
+    values: { step },
+    setFieldValue,
+    errors
+  } = useFormikContext<GroupByForm>();
 
-  // hack for enable step value in form state
-  useEffect(() => {
-    register({ name: "step" });
-  }, [register]);
+  console.log(isValid, errors);
 
-  const step = watch("step");
   const handleNextClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    setValue("step", step + 1);
+    setFieldValue("step", step + 1);
   };
 
   const handlePrevClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    setValue("step", step - 1);
+    setFieldValue("step", step - 1);
   };
 
   return (
@@ -38,7 +37,7 @@ const ConfirmConrol: React.FC = () => {
           </Button>
         ) : (
           <Button
-            disabled={formState.isValid === false}
+            disabled={isValid === false}
             variant="primary"
             onClick={handleNextClick}
           >
@@ -50,4 +49,4 @@ const ConfirmConrol: React.FC = () => {
   );
 };
 
-export { ConfirmConrol };
+export { ConfirmControl };

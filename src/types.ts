@@ -29,11 +29,17 @@ export type ReportDict = {
   hasTimeGrouping?: boolean;
 };
 
+export type FilterGroup = {
+  name: string;
+  domain: string;
+};
+
 export type GroupByForm = object & {
   step: number;
   name: string;
   product: Product;
   report: string;
-  locationLevel: LocationLevel;
-  timeGrouping: TimeGrouping;
+  locationLevel?: LocationLevel;
+  timeGrouping?: TimeGrouping;
+  filterGroups?: FilterGroup[];
 };

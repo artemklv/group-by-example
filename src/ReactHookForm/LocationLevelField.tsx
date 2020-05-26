@@ -7,7 +7,7 @@ import { FieldWrapper } from "./FieldWrapper";
 import { LocationLevel } from '../types'
 
 const rules = {
-  required: `Location level must be set`
+  required: "Location level must be set",
 };
 
 const LocationLevelField: React.FC = () => {
