@@ -18,7 +18,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <h1>Exmaple of implementation Group By from</h1>
+        <h1>Examaple of implementation Group By Form</h1>
         <Container style={{ textAlign: "left" }}>
           <Nav variant="pills">
             <NavLink to="/react-hook-form" title="React Hooks from" />
